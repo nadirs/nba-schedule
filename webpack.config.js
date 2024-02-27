@@ -2,7 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   entry: "./src/index.tsx",
   devtool: "inline-source-map",
   devServer: {
@@ -24,6 +24,10 @@ module.exports = {
         test: /\.s?css$/,
         use: ["style-loader", "css-loader", "sass-loader"],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.svg$/,
+        type: "asset/resource",
       },
     ],
   },
