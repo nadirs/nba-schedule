@@ -86,7 +86,7 @@ export const App = (): JSX.Element => {
   let dayCursor: string;
 
   return (
-    <div>
+    <div className="container">
       <fieldset>
         <label htmlFor="team_filter">
           Filter by team:{" "}
@@ -107,7 +107,7 @@ export const App = (): JSX.Element => {
           let dayHeader;
 
           if (dayCursor != game.gdtutc) {
-            dayHeader = <div id={game.gdtutc}></div>;
+            dayHeader = <div id={game.gdtutc} className="date-anchor"></div>;
             dayCursor = game.gdtutc;
           }
 
@@ -143,24 +143,33 @@ export const Game = ({
   showScore,
   hidden,
 }: GameProps): JSX.Element => {
+  const timeClass =
+    game.gdtutc < today ? "past" : game.gdtutc == today ? "current" : "";
+
   return (
     <div className="game" style={hidden ? { display: "none" } : null}>
-      <span
-        className={`game--date ${
-          game.gdtutc < today ? "past" : game.gdtutc == today ? "current" : ""
-        }`}
-      >
-        [{game.gdtutc} {game.utctm}]{" "}
+      <span className={`game--date ${timeClass}`}>
+        [{game.gdtutc} {game.utctm}]
       </span>
-      <strong>{game.v.ta}</strong>{" "}
-      {showScore ? (
-        <span className="game--score">
-          {padStart(game.v.s, 3, " ")} - {padStart(game.h.s, 3, " ")}
-        </span>
-      ) : (
-        "@"
-      )}{" "}
-      <strong>{game.h.ta}</strong>{" "}
+
+      <strong>{game.v.ta}</strong>
+
+      {showScore ? <GameScore visitor={game.v.s} home={game.h.s} /> : "@"}
+
+      <strong>{game.h.ta}</strong>
     </div>
+  );
+};
+
+interface GameScoreProps {
+  visitor: string;
+  home: string;
+}
+
+const GameScore = ({ visitor, home }: GameScoreProps): JSX.Element => {
+  return (
+    <span className="game--score">
+      {padStart(visitor, 3, " ")} - {padStart(home, 3, " ")}
+    </span>
   );
 };

@@ -17,9 +17,20 @@ body {
   font-size: $fontSize;
 }
 
+.container {
+  margin: 24px auto;
+  max-width: 800px;
+}
+
 .game {
+  display: flex;
+  margin: auto;
   font-family: "Courier New", Courier, monospace;
   font-size: 1rem;
+
+  * {
+    padding: 0 12px;
+  }
 
   .game--date {
     &.past {
