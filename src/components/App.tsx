@@ -1,6 +1,7 @@
-import { filter, forEach, includes, map, sortBy } from "lodash";
+import { filter, forEach, includes, map, padStart, sortBy } from "lodash";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import "./App.scss";
 
 interface Game {
   gid: string;
@@ -24,6 +25,7 @@ interface GameTeam {
 
 interface Search {
   fullText?: string;
+  showScores: boolean;
 }
 
 const getData = async (year = 2021) => {
@@ -44,7 +46,7 @@ const getData = async (year = 2021) => {
 export const App = (): JSX.Element => {
   const [data, setData] = useState([]);
   const [fetched, setFetched] = useState(false);
-  const [search, setSearch] = useState({} as Search);
+  const [search, setSearch] = useState({ showScores: false } as Search);
   const [today, setToday] = useState(new Date().toISOString().split("T")[0]);
 
   useEffect(() => {
@@ -64,6 +66,12 @@ export const App = (): JSX.Element => {
     });
   };
 
+  const onShowScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch((search) => {
+      return { ...search, showScores: e.target.checked };
+    });
+  };
+
   let games = search.fullText
     ? filter(data, (g: Game) =>
         includes(
@@ -75,17 +83,30 @@ export const App = (): JSX.Element => {
 
   return (
     <div>
-      <p>
+      <fieldset>
         <label htmlFor="team_filter">
           Filter by team:{" "}
           <input name="team_filter" type="text" onChange={onTeamFilter} />
         </label>
-      </p>
+      </fieldset>
+      <fieldset>
+        <label htmlFor="show_scores">
+          Show scores:{" "}
+          <input name="show_scores" type="checkbox" onChange={onShowScore} />
+        </label>
+      </fieldset>
       <p>
         <a href={`#${today}`}>Go to Today</a>
       </p>
       {fetched ? (
-        map(games, (game) => <Game key={game.gid} game={game} today={today} />)
+        map(games, (game) => (
+          <Game
+            key={game.gid}
+            game={game}
+            today={today}
+            showScore={search.showScores}
+          />
+        ))
       ) : (
         <p>Fetching Games...</p>
       )}
@@ -95,10 +116,11 @@ export const App = (): JSX.Element => {
 
 interface GameProps {
   game: Game;
+  showScore: boolean;
   today: string;
 }
 
-export const Game = ({ game, today }: GameProps): JSX.Element => {
+export const Game = ({ game, today, showScore }: GameProps): JSX.Element => {
   return (
     <div className="game">
       <span
@@ -114,9 +136,15 @@ export const Game = ({ game, today }: GameProps): JSX.Element => {
       >
         [{game.gdtutc} {game.utctm}]{" "}
       </span>
-      <strong>
-        {game.v.ta}@{game.h.ta}
-      </strong>
+      <strong>{game.v.ta}</strong>{" "}
+      {showScore ? (
+        <span className="game--score">
+          {padStart(game.v.s, 3, " ")} - {padStart(game.h.s, 3, " ")}
+        </span>
+      ) : (
+        "@"
+      )}{" "}
+      <strong>{game.h.ta}</strong>{" "}
     </div>
   );
 };
