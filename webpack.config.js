@@ -47,6 +47,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "NBA Schedule",
+      templateContent: `
+    <html>
+      <body>
+        <div id="app"></div>
+      </body>
+    </html>
+  `,
     }),
     new MiniCssExtractPlugin(),
   ],
