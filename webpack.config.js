@@ -47,13 +47,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "NBA Schedule",
-      templateContent: `
-    <html>
-      <body>
-        <div id="app"></div>
-      </body>
-    </html>
-  `,
+      favicon: "./favicon.ico",
     }),
     new MiniCssExtractPlugin(),
   ],

@@ -5,7 +5,6 @@ import padStart from "lodash/padStart";
 import sortBy from "lodash/sortBy";
 
 import React, { useEffect, useState } from "react";
-import "./App.scss";
 
 interface Game {
   gid: string;
@@ -147,14 +146,9 @@ export const Game = ({
   return (
     <div className="game" style={hidden ? { display: "none" } : null}>
       <span
-        style={{
-          color:
-            game.gdtutc < today
-              ? "gray"
-              : game.gdtutc == today
-                ? "red"
-                : "black",
-        }}
+        className={`game--date ${
+          game.gdtutc < today ? "past" : game.gdtutc == today ? "current" : ""
+        }`}
       >
         [{game.gdtutc} {game.utctm}]{" "}
       </span>
