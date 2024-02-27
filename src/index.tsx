@@ -3,4 +3,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./components/App";
 import "./index.scss";
 
-createRoot(document.body).render(<App />);
+const appRoot = document.createElement("div");
+appRoot.id = "app";
+document.body.appendChild(appRoot);
+createRoot(appRoot).render(<App />);
