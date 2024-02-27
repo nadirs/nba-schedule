@@ -1,7 +1,7 @@
 {
-  "name": "townact",
+  "name": "nba",
   "version": "1.0.0",
-  "description": "Town management game",
+  "description": "NBA schedule browser",
   "license": "MIT",
   "private": true,
   "devDependencies": {

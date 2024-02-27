@@ -28,7 +28,7 @@ interface Search {
   showScores: boolean;
 }
 
-const getData = async (year = 2021) => {
+const getData = async (year = 2022) => {
   const url = `https://data.nba.com/data/10s/v2015/json/mobile_teams/nba/${year}/league/00_full_schedule.json`;
   const response = await fetch(url);
   const { lscd } = await response.json();
