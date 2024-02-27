@@ -152,8 +152,8 @@ export const Game = ({
             game.gdtutc < today
               ? "gray"
               : game.gdtutc == today
-              ? "red"
-              : "black",
+                ? "red"
+                : "black",
         }}
       >
         [{game.gdtutc} {game.utctm}]{" "}
