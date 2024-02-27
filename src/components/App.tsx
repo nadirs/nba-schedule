@@ -72,13 +72,15 @@ export const App = (): JSX.Element => {
     });
   };
 
-  let games = search.fullText
-    ? filter(data, (g: Game) =>
-        join([g.h.ta, g.h.tn, g.h.tc, g.v.ta, g.v.tn, g.v.tc], "|")
-          .toLowerCase()
-          .includes(search.fullText.toLowerCase())
-      )
-    : data;
+  const games = data;
+
+  const isGameVisible = (g: Game) =>
+    !search.fullText ||
+    join([g.h.ta, g.h.tn, g.h.tc, g.v.ta, g.v.tn, g.v.tc], "|")
+      .toLowerCase()
+      .includes(search.fullText.toLowerCase());
+
+  let dayCursor: string;
 
   return (
     <div>
@@ -98,14 +100,26 @@ export const App = (): JSX.Element => {
         <a href={`#${today}`}>Go to Today</a>
       </p>
       {fetched ? (
-        map(games, (game) => (
-          <Game
-            key={game.gid}
-            game={game}
-            today={today}
-            showScore={search.showScores}
-          />
-        ))
+        map(games, (game: Game) => {
+          let dayHeader;
+
+          if (dayCursor != game.gdtutc) {
+            dayHeader = <div id={game.gdtutc}></div>;
+            dayCursor = game.gdtutc;
+          }
+
+          return (
+            <React.Fragment key={game.gid}>
+              {dayHeader}
+              <Game
+                game={game}
+                today={today}
+                showScore={search.showScores}
+                hidden={!isGameVisible(game)}
+              />
+            </React.Fragment>
+          );
+        })
       ) : (
         <p>Fetching Games...</p>
       )}
@@ -117,13 +131,18 @@ interface GameProps {
   game: Game;
   showScore: boolean;
   today: string;
+  hidden: boolean;
 }
 
-export const Game = ({ game, today, showScore }: GameProps): JSX.Element => {
+export const Game = ({
+  game,
+  today,
+  showScore,
+  hidden,
+}: GameProps): JSX.Element => {
   return (
-    <div className="game">
+    <div className="game" style={hidden ? { display: "none" } : null}>
       <span
-        id={game.gdtutc}
         style={{
           color:
             game.gdtutc < today
