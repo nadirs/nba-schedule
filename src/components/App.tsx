@@ -1,4 +1,4 @@
-import { filter, forEach, includes, map, padStart, sortBy } from "lodash";
+import { filter, forEach, join, map, padStart, sortBy } from "lodash";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import "./App.scss";
@@ -28,7 +28,7 @@ interface Search {
   showScores: boolean;
 }
 
-const getData = async (year = 2022) => {
+const getData = async (year = 2023) => {
   const url = `https://data.nba.com/data/10s/v2015/json/mobile_teams/nba/${year}/league/00_full_schedule.json`;
   const response = await fetch(url);
   const { lscd } = await response.json();
@@ -47,7 +47,7 @@ export const App = (): JSX.Element => {
   const [data, setData] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [search, setSearch] = useState({ showScores: false } as Search);
-  const [today, setToday] = useState(new Date().toISOString().split("T")[0]);
+  const [today, _setToday] = useState(new Date().toISOString().split("T")[0]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -74,10 +74,9 @@ export const App = (): JSX.Element => {
 
   let games = search.fullText
     ? filter(data, (g: Game) =>
-        includes(
-          [g.h.ta, g.h.tn, g.h.tc, g.v.ta, g.v.tn, g.v.tc],
-          search.fullText
-        )
+        join([g.h.ta, g.h.tn, g.h.tc, g.v.ta, g.v.tn, g.v.tc], "|")
+          .toLowerCase()
+          .includes(search.fullText.toLowerCase())
       )
     : data;
 
