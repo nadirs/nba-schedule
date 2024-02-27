@@ -1,10 +1,14 @@
 const path = require("path");
+
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const isDev = process.env.NODE_ENV !== "production";
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry: "./src/index.tsx",
-  devtool: "inline-source-map",
+  devtool: isDev ? "inline-source-map" : "source-map",
   devServer: {
     static: {
       directory: path.join(__dirname, "dist"),
@@ -22,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
         exclude: /node_modules/,
       },
       {
@@ -35,8 +39,15 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "main.js",
+    filename: "[name].js",
+    chunkFilename: "[id].[chunkhash].js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "NBA Schedule",
+    }),
+    new MiniCssExtractPlugin(),
+  ],
 };

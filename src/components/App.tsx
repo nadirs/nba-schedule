@@ -1,6 +1,10 @@
-import { forEach, join, map, padStart, sortBy } from "lodash";
-import * as React from "react";
-import { useEffect, useState } from "react";
+import forEach from "lodash/forEach";
+import join from "lodash/join";
+import map from "lodash/map";
+import padStart from "lodash/padStart";
+import sortBy from "lodash/sortBy";
+
+import React, { useEffect, useState } from "react";
 import "./App.scss";
 
 interface Game {
