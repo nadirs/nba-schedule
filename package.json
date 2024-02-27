@@ -1,0 +1,13 @@
+{
+  "name": "townact",
+  "version": "1.0.0",
+  "description": "Town management game",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
+  }
+}
