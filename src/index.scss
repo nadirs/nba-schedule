@@ -17,6 +17,13 @@ body {
   font-size: $fontSize;
 }
 
+fieldset {
+  border: none;
+  margin: 4px 0;
+  padding: 16px 12px;
+  background-color: #a451;
+}
+
 .container {
   margin: 24px auto;
   max-width: 800px;
@@ -24,11 +31,19 @@ body {
 
 .game {
   display: flex;
+  align-items: center;
+  justify-content: space-around;
   margin: auto;
   font-family: "Courier New", Courier, monospace;
   font-size: 1rem;
+  border-top: 1px solid #8882;
+  padding: 4px 0;
 
-  * {
+  &:last-child {
+    border-bottom: 1px solid #8882;
+  }
+
+  > * {
     padding: 0 12px;
   }
 
@@ -49,5 +64,45 @@ body {
     font-style: italic;
     font-size: 0.875rem;
     white-space: pre;
+  }
+
+  .team-logo {
+    height: 46px;
+    width: 44px;
+    background-image: url("../team_logos.svg");
+    background-size: 780px;
+    background-clip: content-box;
+  }
+
+  &:hover {
+    background-color: #a451;
+  }
+
+  .team-logo-bos {
+    background-position: -36px -180px;
+  }
+
+  .team-logo-chi {
+    background-position: -36px -180px;
+  }
+
+  .team-logo-dal {
+    background-position: -263px -178px;
+  }
+
+  .team-logo-gsw {
+    background-position: -609px -185px;
+  }
+
+  .team-logo-lal {
+    background-position: -609px -272px;
+  }
+
+  .team-logo-min {
+    background-position: -157px -227px;
+  }
+
+  .team-logo-phi {
+    background-position: -36px -309px;
   }
 }

@@ -90,13 +90,23 @@ export const App = (): JSX.Element => {
       <fieldset>
         <label htmlFor="team_filter">
           Filter by team:{" "}
-          <input name="team_filter" type="text" onChange={onTeamFilter} />
+          <input
+            id="team_filter"
+            name="team_filter"
+            type="text"
+            onChange={onTeamFilter}
+          />
         </label>
       </fieldset>
       <fieldset>
         <label htmlFor="show_scores">
           Show scores:{" "}
-          <input name="show_scores" type="checkbox" onChange={onShowScore} />
+          <input
+            id="show_scores"
+            name="show_scores"
+            type="checkbox"
+            onChange={onShowScore}
+          />
         </label>
       </fieldset>
       <p>
@@ -152,11 +162,13 @@ export const Game = ({
         [{game.gdtutc} {game.utctm}]
       </span>
 
+      <i className={`team-logo team-logo-${game.v.ta.toLowerCase()}`} />
       <strong>{game.v.ta}</strong>
 
       {showScore ? <GameScore visitor={game.v.s} home={game.h.s} /> : "@"}
 
       <strong>{game.h.ta}</strong>
+      <i className={`team-logo team-logo-${game.h.ta.toLowerCase()}`} />
     </div>
   );
 };
