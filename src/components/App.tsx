@@ -163,11 +163,11 @@ export const Game = ({
       </span>
 
       <i className={`team-logo team-logo-${game.v.ta.toLowerCase()}`} />
-      <strong>{game.v.ta}</strong>
+      <strong title={`${game.v.tc} ${game.v.tn}`}>{game.v.ta}</strong>
 
       {showScore ? <GameScore visitor={game.v.s} home={game.h.s} /> : "@"}
 
-      <strong>{game.h.ta}</strong>
+      <strong title={`${game.h.tc} ${game.h.tn}`}>{game.h.ta}</strong>
       <i className={`team-logo team-logo-${game.h.ta.toLowerCase()}`} />
     </div>
   );
